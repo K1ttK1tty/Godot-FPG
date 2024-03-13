@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://c5kfv5qun4wo0"
+path="res://.godot/imported/M1911.obj-56d1ac8b1de9d1c6beb187999e691c93.mesh"
+
+[deps]
+
+files=["res://.godot/imported/M1911.obj-56d1ac8b1de9d1c6beb187999e691c93.mesh"]
+
+source_file="res://assets/models/Pistol/cadnav.com_model/Models_F0501A041/M1911.obj"
+dest_files=["res://.godot/imported/M1911.obj-56d1ac8b1de9d1c6beb187999e691c93.mesh", "res://.godot/imported/M1911.obj-56d1ac8b1de9d1c6beb187999e691c93.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

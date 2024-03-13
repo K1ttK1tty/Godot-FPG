@@ -1,0 +1,86 @@
+[gd_scene load_steps=12 format=3 uid="uid://ebulab817kgc"]
+
+[ext_resource type="PackedScene" uid="uid://bnaqdt5whaine" path="res://Player.tscn" id="1_cb44h"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8mf4w"]
+size = Vector3(150, 2, 150)
+
+[sub_resource type="BoxMesh" id="BoxMesh_kuche"]
+size = Vector3(150, 2, 150)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_txkfn"]
+size = Vector3(5, 0.7, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qvhc6"]
+render_priority = -2
+albedo_color = Color(0.584314, 0.423529, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_iqxfx"]
+material = SubResource("StandardMaterial3D_qvhc6")
+size = Vector3(5, 0.7, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gplal"]
+render_priority = -2
+albedo_color = Color(0.25098, 0.560784, 0.513726, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ewvk2"]
+material = SubResource("StandardMaterial3D_gplal")
+size = Vector3(5, 0.7, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ve7to"]
+size = Vector3(5, 0.7, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y51nr"]
+render_priority = -2
+albedo_color = Color(0.94902, 0.219608, 0.494118, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sgj30"]
+material = SubResource("StandardMaterial3D_y51nr")
+size = Vector3(5, 0.7, 4)
+
+[node name="Main" type="Node"]
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_8mf4w")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_kuche")
+
+[node name="Environment" type="Node3D" parent="Ground"]
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Ground/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.861, 1.4, -30.612)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Environment/RigidBody3D"]
+shape = SubResource("BoxShape3D_txkfn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Environment/RigidBody3D"]
+mesh = SubResource("BoxMesh_iqxfx")
+
+[node name="RigidBody3D2" type="RigidBody3D" parent="Ground/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.889, 1.3, -30.612)
+mass = 0.01
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Environment/RigidBody3D2"]
+shape = SubResource("BoxShape3D_txkfn")
+
+[node name="Mesh2" type="MeshInstance3D" parent="Ground/Environment/RigidBody3D2"]
+mesh = SubResource("BoxMesh_ewvk2")
+
+[node name="RigidBody3D3" type="RigidBody3D" parent="Ground/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.99496, 2.1, -27.0532)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Environment/RigidBody3D3"]
+shape = SubResource("BoxShape3D_ve7to")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Environment/RigidBody3D3"]
+mesh = SubResource("BoxMesh_sgj30")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.0988025, -0.70132, 0.705966, -0.0972049, 0.712847, 0.694551, -0.990348, -7.52319e-09, -0.138603, 39.822, 34.0215, 3.15146)
+light_energy = 2.067
+
+[node name="Player" parent="." instance=ExtResource("1_cb44h")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.5495, 0)

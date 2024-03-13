@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://dq83wr5h2wua7"]
+
+[ext_resource type="Script" path="res://Bullet.cs" id="1_5qnoc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dqu14"]
+albedo_color = Color(1, 1, 0.0980392, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_24udp"]
+material = SubResource("StandardMaterial3D_dqu14")
+size = Vector3(0.02, 0.02, 0.1)
+
+[node name="Bullet" type="Node3D"]
+script = ExtResource("1_5qnoc")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.404335, 0.00768888, -0.952495)
+mesh = SubResource("BoxMesh_24udp")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.417839, 0.010909, 0)
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="OnTimerTimeout"]

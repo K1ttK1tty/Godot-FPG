@@ -1,0 +1,156 @@
+[gd_scene load_steps=8 format=3 uid="uid://bnaqdt5whaine"]
+
+[ext_resource type="Script" path="res://Player.cs" id="1_3kuy3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u1n85"]
+size = Vector3(0.430237, 1.05603, 0.443298)
+
+[sub_resource type="Animation" id="Animation_nch2w"]
+resource_name = "Ak47"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RotationHelper/Weapon:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.4),
+"transitions": PackedFloat32Array(0.217638, 1.6245, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.05, 0.1), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RotationHelper/Weapon:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.4),
+"transitions": PackedFloat32Array(0.217638, 1.6245, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.139626, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_13y6c"]
+resource_name = "Knife"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RotationHelper/Weapon:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.25),
+"transitions": PackedFloat32Array(0.217638, 0.378929, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.27, -0.3), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RotationHelper/Weapon:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.15, 0.25),
+"transitions": PackedFloat32Array(0.217638, 0.378929, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-1.48353, 0, 0), Vector3(-1.48353, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_eybwp"]
+resource_name = "M1911"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RotationHelper/Weapon:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(0.329877, 2.21914, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.03, 0.02), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RotationHelper/Weapon:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(0.329877, 2.21914, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.122173, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_vevii"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RotationHelper/Weapon:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RotationHelper/Weapon:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_opgdu"]
+_data = {
+"Ak47": SubResource("Animation_nch2w"),
+"Knife": SubResource("Animation_13y6c"),
+"M1911": SubResource("Animation_eybwp"),
+"RESET": SubResource("Animation_vevii")
+}
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_3kuy3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.535342, 0)
+shape = SubResource("BoxShape3D_u1n85")
+
+[node name="RotationHelper" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.776433, 0)
+
+[node name="Camera3D" type="Camera3D" parent="RotationHelper"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.169916, 0.0667626)
+
+[node name="Weapon" type="Node3D" parent="RotationHelper"]
+
+[node name="ShootTimer" type="Timer" parent="."]
+wait_time = 0.12
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_opgdu")
+}
+
+[node name="ChangeWeaponTimer" type="Timer" parent="."]
+wait_time = 0.8
+one_shot = true
+
+[connection signal="timeout" from="ShootTimer" to="." method="OnShootTimerTimeout"]
+[connection signal="timeout" from="ChangeWeaponTimer" to="." method="OnChangeWeaponTimer"]

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://vf3xaf4rn08y"
+path="res://.godot/imported/Colt1911 shot sound (256  kbps) (mp3cut.net).mp3-da41b4a6c611e09776612be569c70b57.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/m1911/Colt1911 shot sound (256  kbps) (mp3cut.net).mp3"
+dest_files=["res://.godot/imported/Colt1911 shot sound (256  kbps) (mp3cut.net).mp3-da41b4a6c611e09776612be569c70b57.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
