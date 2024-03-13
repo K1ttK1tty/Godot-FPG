@@ -9,7 +9,7 @@ public partial class M_1911 : Node3D, IWeapon
 
     public float WaitTimeToGetInHand => 1f;
     public float ReloadTime => 1.7f;
-    public float Ammunition => 7;
+    public int Ammunition => 7;
 
     public string SoundName => "M1911";
 

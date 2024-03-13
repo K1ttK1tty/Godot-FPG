@@ -10,7 +10,7 @@ public partial class Ak47 : Node3D, IWeapon
     public bool IsSoundLoopable => true;
     public float WaitTimeToGetInHand => 1f;
     public float ReloadTime => 2.3f;
-    public float Ammunition { get => 30; }
+    public int Ammunition => 30;
     public float IntervalBetweenShots => 0.12f;
 
 

@@ -1,7 +1,7 @@
 using Godot;
 
 
-public partial class Bullet : Node3D
+public partial class NormalBullet : Node3D
 {
     [Export] const float speed = 55f;
 

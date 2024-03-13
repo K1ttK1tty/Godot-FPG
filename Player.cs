@@ -1,6 +1,7 @@
 using System;
+using System.Reflection.Metadata.Ecma335;
 using Godot;
-interface IWeapon
+public interface IWeapon
 {
     public string WeaponName { get; }
     public string WeaponType { get; } // melee | range
@@ -11,27 +12,32 @@ interface IWeapon
     public float IntervalBetweenShots { get; }
     public float WaitTimeToGetInHand { get; }
     public float ReloadTime { get; } // if meele i don't need this, change interface
-    public float Ammunition { get; } // if meele i don't need this, change interface
+    public int Ammunition { get; } // if meele i don't need this, change interface
     public void Shoot();
     public void StopShooting();
 }
 
 public partial class Player : CharacterBody3D
 {
+    // [Export]
+    // public CSharpScript script;
+
     private static float _Speed = 5.0f;
     private float _SitDownSpeed = _Speed * 0.4f;
     private float _SprintSpeed = _Speed * 1.7f;
     private float _JumpVelocity = 5.2f;
+    // private CSharpScript rifle;
     private readonly static PackedScene BulletScene = GD.Load<PackedScene>("res://Weapons/Bullet/NormalBullet/NormalBullet.tscn");
-    private readonly static PackedScene WeaponKnifeScene = GD.Load<PackedScene>("res://Weapons/Knife/M9/M9.tscn");
-    private readonly static PackedScene WeaponPistolScene = GD.Load<PackedScene>("res://Weapons/Pistol/M_1911/M_1911.tscn");
-    private readonly static PackedScene WeaponRifleScene = GD.Load<PackedScene>("res://Weapons/Rifle/AK47/Ak47.tscn");
+    // private readonly static PackedScene WeaponKnifeScene = GD.Load<PackedScene>("res://Weapons/Knife/M9/M9.tscn");
+    // private readonly static PackedScene WeaponPistolScene = GD.Load<PackedScene>("res://Weapons/Pistol/M_1911/M_1911.tscn");
+    // private readonly static PackedScene WeaponRifleScene = GD.Load<PackedScene>("res://Weapons/Rifle/AK47/Ak47.tscn");
     private const float _MouseSensitivity = 0.002f;
     private float _Gravity = 18;
     private bool _IsChangeWeaponStage = false;
     private bool _IsReloading = false;
     private static string _CurrentWeaponName = "Rifle";
-    private static readonly PackedScene[] WeaponScenes = { WeaponKnifeScene, WeaponPistolScene, WeaponRifleScene };
+    private Rifle rifle;
+    // private static readonly PackedScene[] WeaponScenes = { WeaponKnifeScene, WeaponPistolScene, WeaponRifleScene };
     // private readonly PackedScene _CurrentWeaponScene = WeaponScenes[WeaponsIndexes[_CurrentWeaponName]];
     private readonly System.Collections.Generic.Dictionary<string, int> WeaponsIndexes = new(){
         { "Knife", 0 },
@@ -50,9 +56,19 @@ public partial class Player : CharacterBody3D
     }
     public override void _Ready()
     {
+        // const Rifle rifle = GetMeta("Rifle");
+        // Variant rifle = ResourceLoader.Load("Weapons/Rifle/Rifle.cs").GetIn;
+        // var newdff = new Rifle();
+        rifle = new Rifle();
+
+        // GD.Print(rifle.GetWeaponInstance());
+        // rifle = GetNode<Rifle>("res://Weapons/Rifle/Rifle.cs");
+        // C:\Users\vladp\OneDrive\Рабочий стол\gameDev\FPG\Weapons\Rifle\Rifle.cs
+
         Input.MouseMode = Input.MouseModeEnum.Captured;
-        Node3D weapon = WeaponScenes[WeaponsIndexes[_CurrentWeaponName]].Instantiate<Node3D>();
-        GetNode<Node3D>("RotationHelper/Weapon").AddChild(weapon);
+        // Node3D weapon = WeaponScenes[WeaponsIndexes[_CurrentWeaponName]].Instantiate<Node3D>();
+        // GetNode<Node3D>("RotationHelper/Weapon").AddChild(rifle.GetInstantiatedNode());
+        GetNode<Node3D>("RotationHelper/Weapon").AddChild(rifle.GetInstantiatedNode());
     }
     private void OnChangeWeaponTimerTimeout()
     {
@@ -78,14 +94,14 @@ public partial class Player : CharacterBody3D
     }
     private void SelectWeapon(string newWeapon)
     {
-        _CurrentWeaponName = newWeapon;
-        Node3D weapon = WeaponScenes[WeaponsIndexes[_CurrentWeaponName]].Instantiate<Node3D>();
-        Node3D weaponContainer = GetNode<Node3D>("RotationHelper/Weapon");
-        weaponContainer.GetChild(0).QueueFree();
-        weaponContainer.AddChild(weapon);
-        _IsChangeWeaponStage = true;
-        GetNode<Timer>("ShootTimer").Stop();
-        GetNode<Timer>("ChangeWeaponTimer").Start();
+        // _CurrentWeaponName = newWeapon;
+        // Node3D weapon = WeaponScenes[WeaponsIndexes[_CurrentWeaponName]].Instantiate<Node3D>();
+        // Node3D weaponContainer = GetNode<Node3D>("RotationHelper/Weapon");
+        // weaponContainer.GetChild(0).QueueFree();
+        // weaponContainer.AddChild(weapon);
+        // _IsChangeWeaponStage = true;
+        // GetNode<Timer>("ShootTimer").Stop();
+        // GetNode<Timer>("ChangeWeaponTimer").Start();
     }
     private void Movement(double delta)
     {
@@ -169,7 +185,7 @@ public partial class Player : CharacterBody3D
         if (GetNode<IWeapon>($"RotationHelper/Weapon/{WeaponNames[_CurrentWeaponName]}").WeaponType == "Range")
         {
             Node3D gun = GetNode<Node3D>($"RotationHelper/Weapon/{WeaponNames[_CurrentWeaponName]}");
-            Bullet bullet = BulletScene.Instantiate<Bullet>();
+            NormalBullet bullet = BulletScene.Instantiate<NormalBullet>();
             bullet.Position = gun.Position;
             bullet.Transform = GetNode<Node3D>("RotationHelper").Transform;
             AddChild(bullet);
