@@ -4,6 +4,7 @@ interface IWeapon
 {
     public string WeaponName { get; }
     public string WeaponType { get; } // melee | range
+    public float Damage { get; }
     public bool IsSoundLoopable { get; }
     public string AnimationName { get; }
     public string SoundName { get; }
@@ -17,18 +18,18 @@ interface IWeapon
 
 public partial class Player : CharacterBody3D
 {
-    private static float Speed = 5.0f;
-    private float _sitDownSpeed = Speed * 0.4f;
-    private float _sprintSpeed = Speed * 1.7f;
-    public const float JumpVelocity = 5.2f;
-    private readonly static PackedScene BulletScene = GD.Load<PackedScene>("res://Bullet.tscn");
-    private readonly static PackedScene WeaponKnifeScene = GD.Load<PackedScene>("res://Knife.tscn");
-    private readonly static PackedScene WeaponPistolScene = GD.Load<PackedScene>("res://M_1911.tscn");
-    private readonly static PackedScene WeaponRifleScene = GD.Load<PackedScene>("res://Ak47.tscn");
-    public const float MouseSensitivity = 0.002f;
-    public float gravity = 18;
-    private bool ChangeWeaponStage = false;
-
+    private static float _Speed = 5.0f;
+    private float _SitDownSpeed = _Speed * 0.4f;
+    private float _SprintSpeed = _Speed * 1.7f;
+    private float _JumpVelocity = 5.2f;
+    private readonly static PackedScene BulletScene = GD.Load<PackedScene>("res://Weapons/Bullet/NormalBullet/NormalBullet.tscn");
+    private readonly static PackedScene WeaponKnifeScene = GD.Load<PackedScene>("res://Weapons/Knife/M9/M9.tscn");
+    private readonly static PackedScene WeaponPistolScene = GD.Load<PackedScene>("res://Weapons/Pistol/M_1911/M_1911.tscn");
+    private readonly static PackedScene WeaponRifleScene = GD.Load<PackedScene>("res://Weapons/Rifle/AK47/Ak47.tscn");
+    private const float _MouseSensitivity = 0.002f;
+    private float _Gravity = 18;
+    private bool _IsChangeWeaponStage = false;
+    private bool _IsReloading = false;
     private static string _CurrentWeaponName = "Rifle";
     private static readonly PackedScene[] WeaponScenes = { WeaponKnifeScene, WeaponPistolScene, WeaponRifleScene };
     // private readonly PackedScene _CurrentWeaponScene = WeaponScenes[WeaponsIndexes[_CurrentWeaponName]];
@@ -42,16 +43,10 @@ public partial class Player : CharacterBody3D
         {"Pistol","M1911"},
         {"Rifle","Ak47"}
     };
-
     public override void _PhysicsProcess(double delta)
     {
         Movement(delta);
         Fire();
-
-
-
-
-
     }
     public override void _Ready()
     {
@@ -59,130 +54,98 @@ public partial class Player : CharacterBody3D
         Node3D weapon = WeaponScenes[WeaponsIndexes[_CurrentWeaponName]].Instantiate<Node3D>();
         GetNode<Node3D>("RotationHelper/Weapon").AddChild(weapon);
     }
-    private void OnChangeWeaponTimer()
+    private void OnChangeWeaponTimerTimeout()
     {
-        ChangeWeaponStage = false;
-        GD.Print("OnChangeWeaponTimer");
+        _IsChangeWeaponStage = false;
     }
-
-    private void ChangeWeapon(string keyCode)
+    private void ChangeWeapon()
     {
-        // if (
-        //     Input.IsActionJustPressed("SelectMeele") ||
-        //     Input.IsActionJustPressed("SelectPistol") ||
-        //     Input.IsActionJustPressed("SelectRifle")
-        //     )
-        // {
-        //     switch (keyCode)
-        //     {
-        //         case "Key1":
-        //             _CurrentWeaponName = "Knife";
-        //             Node3D weapon = WeaponScenes[WeaponsIndexes[_CurrentWeaponName]].Instantiate<Node3D>();
-        //             Node3D weaponContainer = GetNode<Node3D>("RotationHelper/Weapon");
-        //             weaponContainer.GetChild(0).QueueFree();
-        //             weaponContainer.AddChild(weapon);
-        //             break;
-        //         case "Key2":
-        //             _CurrentWeaponName = "Pistol";
-        //             weapon = WeaponScenes[WeaponsIndexes[_CurrentWeaponName]].Instantiate<Node3D>();
-        //             weaponContainer = GetNode<Node3D>("RotationHelper/Weapon");
-        //             weaponContainer.GetChild(0).QueueFree();
-        //             weaponContainer.AddChild(weapon); 
-        //             break;
-        //         case "Key3":
-        //             _CurrentWeaponName = "Rifle";
-        //             weapon = WeaponScenes[WeaponsIndexes[_CurrentWeaponName]].Instantiate<Node3D>();
-        //             weaponContainer = GetNode<Node3D>("RotationHelper/Weapon");
-        //             weaponContainer.GetChild(0).QueueFree();
-        //             weaponContainer.AddChild(weapon); 
-        //             break;
-        //         default:
-        //             break;
-        //     }
-        // }
-        if (!ChangeWeaponStage)
+        if (!_IsChangeWeaponStage)
         {
-
-
-            if (Input.IsActionJustPressed("SelectMeele"))
+            if (Input.IsActionJustPressed("SelectMeele") && _CurrentWeaponName != "Knife")
             {
-                _CurrentWeaponName = "Knife";
-                Node3D weapon = WeaponScenes[WeaponsIndexes[_CurrentWeaponName]].Instantiate<Node3D>();
-                Node3D weaponContainer = GetNode<Node3D>("RotationHelper/Weapon");
-                weaponContainer.GetChild(0).QueueFree();
-                GD.Print(weaponContainer.GetChildren().Count);
-                weaponContainer.AddChild(weapon);
-
-                ChangeWeaponStage = true;
-                GetNode<Timer>("ChangeWeaponTimer").Start();
+                SelectWeapon("Knife");
             }
-            else if (Input.IsActionJustPressed("SelectPistol"))
+            else if (Input.IsActionJustPressed("SelectPistol") && _CurrentWeaponName != "Pistol")
             {
-                _CurrentWeaponName = "Pistol";
-                Node3D weapon = WeaponScenes[WeaponsIndexes[_CurrentWeaponName]].Instantiate<Node3D>();
-                Node3D weaponContainer = GetNode<Node3D>("RotationHelper/Weapon");
-                weaponContainer.GetChild(0).QueueFree();
-                weaponContainer.AddChild(weapon);
-
-                ChangeWeaponStage = true;
-                GetNode<Timer>("ChangeWeaponTimer").Start();
+                SelectWeapon("Pistol");
             }
-            else if (Input.IsActionJustPressed("SelectRifle"))
+            else if (Input.IsActionJustPressed("SelectRifle") && _CurrentWeaponName != "Rifle")
             {
-                _CurrentWeaponName = "Rifle";
-                Node3D weapon = WeaponScenes[WeaponsIndexes[_CurrentWeaponName]].Instantiate<Node3D>();
-                Node3D weaponContainer = GetNode<Node3D>("RotationHelper/Weapon");
-                weaponContainer.GetChild(0).QueueFree();
-                weaponContainer.AddChild(weapon);
-
-                ChangeWeaponStage = true;
-                GetNode<Timer>("ChangeWeaponTimer").Start();
+                SelectWeapon("Rifle");
             }
         }
+    }
+    private void SelectWeapon(string newWeapon)
+    {
+        _CurrentWeaponName = newWeapon;
+        Node3D weapon = WeaponScenes[WeaponsIndexes[_CurrentWeaponName]].Instantiate<Node3D>();
+        Node3D weaponContainer = GetNode<Node3D>("RotationHelper/Weapon");
+        weaponContainer.GetChild(0).QueueFree();
+        weaponContainer.AddChild(weapon);
+        _IsChangeWeaponStage = true;
+        GetNode<Timer>("ShootTimer").Stop();
+        GetNode<Timer>("ChangeWeaponTimer").Start();
     }
     private void Movement(double delta)
     {
         Vector3 velocity = Velocity;
-        if (!IsOnFloor()) velocity.Y -= gravity * (float)delta;
+        if (!IsOnFloor()) velocity.Y -= _Gravity * (float)delta;
 
-        if (Input.IsActionJustPressed("jump") && IsOnFloor()) velocity.Y = JumpVelocity;
+        if (Input.IsActionJustPressed("jump") && IsOnFloor()) velocity.Y = _JumpVelocity;
 
-        if (Input.IsActionPressed("sprint") && IsOnFloor()) Speed = _sprintSpeed;
-        else Speed = 5f;
+        if (Input.IsActionPressed("sprint") && IsOnFloor()) _Speed = _SprintSpeed;
+        else _Speed = 5f;
 
         if (Input.IsActionPressed("sit_down") && IsOnFloor())
         {
             Scale = new Vector3(1, 0.6f, 1);
-            Speed = _sitDownSpeed;
+            _Speed = _SitDownSpeed;
         }
         else if (!Input.IsActionPressed("sprint"))
         {
-            Speed = 5f;
+            _Speed = 5f;
             Scale = new Vector3(1, 1, 1);
         }
-
         Vector2 inputDir = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
         Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
         if (direction != Vector3.Zero)
         {
-            velocity.X = direction.X * Speed;
-            velocity.Z = direction.Z * Speed;
+            velocity.X = direction.X * _Speed;
+            velocity.Z = direction.Z * _Speed;
         }
         else
         {
-            velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-            velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
+            velocity.X = Mathf.MoveToward(Velocity.X, 0, _Speed);
+            velocity.Z = Mathf.MoveToward(Velocity.Z, 0, _Speed);
         }
-
         Velocity = velocity;
         MoveAndSlide();
     }
     private void Fire()
     {
+        if (_IsReloading)
+        {
+            GetNode<Timer>("ShootTimer").Stop();
+            return;
+        }
+        if (_IsChangeWeaponStage)
+        {
+            GetNode<Timer>("ShootTimer").Stop();
+            GetNode<AnimationPlayer>("AnimationPlayer").Stop();
+            return;
+        }
+
         if (Input.IsActionJustPressed("fire"))
         {
             IWeapon currentWeapon = GetNode<IWeapon>($"RotationHelper/Weapon/{WeaponNames[_CurrentWeaponName]}");
+            if (currentWeapon.Ammunition == 0)
+            {
+                Reloading();
+                return;
+            }
             currentWeapon.Shoot();
+            GD.Print(currentWeapon.Ammunition);
             if (currentWeapon.IsSoundLoopable)
             {
                 Timer shootTimer = GetNode<Timer>("ShootTimer");
@@ -191,21 +154,17 @@ public partial class Player : CharacterBody3D
             }
             GetNode<AnimationPlayer>("AnimationPlayer").Stop();
             GetNode<AnimationPlayer>("AnimationPlayer").Play(currentWeapon.AnimationName);
-            TakeShot();
+            GenerateBullet();
         }
 
         bool isWeaponExistInScene = GetNode<Node3D>("RotationHelper/Weapon").GetChild(0) != null;
         if (!Input.IsActionPressed("fire") && isWeaponExistInScene)
         {
             IWeapon currentWeapon = GetNode<IWeapon>($"RotationHelper/Weapon/{WeaponNames[_CurrentWeaponName]}");
-            if (currentWeapon.IsSoundLoopable)
-            {
-                GetNode<Timer>("ShootTimer").Stop();
-                GD.Print("currentWeapon");
-            }
+            if (currentWeapon.IsSoundLoopable) GetNode<Timer>("ShootTimer").Stop();
         }
     }
-    private void TakeShot() // for bullets
+    private void GenerateBullet()
     {
         if (GetNode<IWeapon>($"RotationHelper/Weapon/{WeaponNames[_CurrentWeaponName]}").WeaponType == "Range")
         {
@@ -216,15 +175,35 @@ public partial class Player : CharacterBody3D
             AddChild(bullet);
         }
     }
-
     private void OnShootTimerTimeout()
     {
+        if (_IsChangeWeaponStage)
+        {
+            GetNode<AnimationPlayer>("AnimationPlayer").Stop();
+            return;
+        }
         IWeapon currentWeapon = GetNode<IWeapon>($"RotationHelper/Weapon/{WeaponNames[_CurrentWeaponName]}");
         GetNode<AnimationPlayer>("AnimationPlayer").Stop();
         GetNode<AnimationPlayer>("AnimationPlayer").Play(currentWeapon.AnimationName);
         GetNode<IWeapon>($"RotationHelper/Weapon/{currentWeapon.WeaponName}").Shoot();
-        GD.Print("OnShootTimerTimeout");
-        TakeShot();
+        GenerateBullet();
+    }
+    private void Reloading()
+    {
+        if (_CurrentWeaponName != "Knife")
+        {
+            _IsReloading = true;
+            IWeapon currentWeapon = GetNode<IWeapon>($"RotationHelper/Weapon/{WeaponNames[_CurrentWeaponName]}");
+            Timer ReloadingTimer = GetNode<Timer>("ReloadingTimer");
+            ReloadingTimer.WaitTime = currentWeapon.ReloadTime;
+            ReloadingTimer.Start();
+            GD.Print("StartReloading");
+        }
+    }
+    private void OnReloadingTimerTimeout()
+    {
+        _IsReloading = false;
+        GD.Print("EndReloading");
     }
     public override void _Input(InputEvent @event)
     {
@@ -232,16 +211,17 @@ public partial class Player : CharacterBody3D
         if (@event is InputEventMouseMotion)
         {
             InputEventMouseMotion mouseEvent = @event as InputEventMouseMotion;
-            RotateY(-mouseEvent.Relative.X * MouseSensitivity);
-            RotationHelper.RotateX(-mouseEvent.Relative.Y * MouseSensitivity);
+            RotateY(-mouseEvent.Relative.X * _MouseSensitivity);
+            RotationHelper.RotateX(-mouseEvent.Relative.Y * _MouseSensitivity);
             Vector3 cameraRot = RotationHelper.RotationDegrees;
             cameraRot.X = Math.Clamp(cameraRot.X, -70, 70);
             RotationHelper.RotationDegrees = cameraRot;
         }
         if (@event is InputEventKey)
         {
-            InputEventKey keyEvent = @event as InputEventKey;
-            ChangeWeapon(keyEvent.Keycode.ToString());
+            ChangeWeapon();
+            InputEventKey keyCode = @event as InputEventKey;
+            if (keyCode.Keycode.ToString() == "R") Reloading();
         }
     }
 }

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://fewe75hi5wes"]
 
 [ext_resource type="PackedScene" uid="uid://bf5000qq1yyqu" path="res://assets/models/Knife/cadnav.com_model/Models_G0402A071/Combat_Knife.fbx" id="1_glqg5"]
-[ext_resource type="Script" path="res://Knife.cs" id="1_yrr1x"]
+[ext_resource type="Script" path="res://Weapons/Knife/M9/M9.cs" id="1_yrr1x"]
 [ext_resource type="AudioStream" uid="uid://cghw2fmytjjdu" path="res://assets/sounds/Knife/swinging-a-knife-that-cuts-through-the-air.mp3" id="3_xkvvq"]
 
 [node name="Knife" type="Node3D"]

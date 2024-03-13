@@ -2,19 +2,20 @@ using Godot;
 public partial class Ak47 : Node3D, IWeapon
 
 {
-    [Export] const float damage = 10;
+    public float Damage => 15;
     public string WeaponName => "Ak47";
     public string WeaponType => "Range";
     public string SoundName => "Ak47";
     public string AnimationName => "Ak47";
     public bool IsSoundLoopable => true;
-
     public float WaitTimeToGetInHand => 1f;
-    public float ReloadTime => 2f;
-    public float Ammunition => 30;
-
-
+    public float ReloadTime => 2.3f;
+    public float Ammunition { get => 30; }
     public float IntervalBetweenShots => 0.12f;
+
+
+    // public float IWeapon.Ammunition { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
     public void Shoot()
     {
         GetNode<AudioStreamPlayer>("AudioStreamPlayer").Stop();

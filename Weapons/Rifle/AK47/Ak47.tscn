@@ -1,6 +1,6 @@
 [gd_scene load_steps=58 format=3 uid="uid://mx7sy5hpxyp1"]
 
-[ext_resource type="Script" path="res://Ak47.cs" id="1_1f5wh"]
+[ext_resource type="Script" path="res://Weapons/Rifle/AK47/Ak47.cs" id="1_1f5wh"]
 [ext_resource type="AudioStream" uid="uid://c4lnqrp5rscby" path="res://assets/sounds/rifle/rifle_fire_1.wav" id="2_gjq5f"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r66mg"]

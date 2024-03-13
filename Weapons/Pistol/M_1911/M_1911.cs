@@ -1,21 +1,19 @@
 using Godot;
-
-public partial class Knife : Node3D, IWeapon
+public partial class M_1911 : Node3D, IWeapon
 {
-
-    [Export] const float damage = 4;
-
-    public string WeaponName => "Knife";
-    public string WeaponType => "Melee";
-    public string SoundName => "Knife";
-    public string AnimationName => "Knife";
+    public float Damage => 8;
+    public string WeaponName => "M1911";
+    public string WeaponType => "Range";
+    public string AnimationName => "M1911";
     public bool IsSoundLoopable => false;
+
     public float WaitTimeToGetInHand => 1f;
-    public float ReloadTime => 2f; // ???????????????????
-    public float Ammunition => 0; // ???????????????????
+    public float ReloadTime => 1.7f;
+    public float Ammunition => 7;
+
+    public string SoundName => "M1911";
 
     public float IntervalBetweenShots => 0.12f;
-
     public void Shoot()
     {
         GetNode<AudioStreamPlayer>("AudioStreamPlayer").Stop();

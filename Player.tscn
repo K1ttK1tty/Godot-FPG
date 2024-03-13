@@ -149,8 +149,12 @@ libraries = {
 }
 
 [node name="ChangeWeaponTimer" type="Timer" parent="."]
-wait_time = 0.8
+wait_time = 0.5
+one_shot = true
+
+[node name="ReloadingTimer" type="Timer" parent="."]
 one_shot = true
 
 [connection signal="timeout" from="ShootTimer" to="." method="OnShootTimerTimeout"]
-[connection signal="timeout" from="ChangeWeaponTimer" to="." method="OnChangeWeaponTimer"]
+[connection signal="timeout" from="ChangeWeaponTimer" to="." method="OnChangeWeaponTimerTimeout"]
+[connection signal="timeout" from="ReloadingTimer" to="." method="OnReloadingTimerTimeout"]
