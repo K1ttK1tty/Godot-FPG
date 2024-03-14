@@ -10,21 +10,29 @@ public partial class Ak47 : Node3D, IWeapon
     public bool IsSoundLoopable => true;
     public float WaitTimeToGetInHand => 1f;
     public float ReloadTime => 2.3f;
-    public int AmmunitionInMagazine => 30;
-    // AmmunitionInMagazine in the magazine 
+    public int AmmunitionInMagazine => _AmmunitionInMagazine;
+    private int _AmmunitionInMagazine = 30;
     public float IntervalBetweenShots => 0.12f;
-
-
-    // public float IWeapon.AmmunitionInMagazine { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
     public void Shoot()
     {
+        _AmmunitionInMagazine -= 1;
+        GD.Print(_AmmunitionInMagazine + "AK47");
+    }
+    public void PlayShootSound()
+    {
+
         GetNode<AudioStreamPlayer>("AudioStreamPlayer").Stop();
         GetNode<AudioStreamPlayer>("AudioStreamPlayer").Play();
     }
-    public void StopShooting()
+    public void StopShootSound()
     {
         GetNode<AudioStreamPlayer>("AudioStreamPlayer").Stop();
+    }
+
+    public void Reload()
+    {
+        _AmmunitionInMagazine = 30;
     }
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()

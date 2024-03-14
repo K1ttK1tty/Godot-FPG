@@ -2,8 +2,6 @@ using System.Linq;
 using Godot;
 public class PistolController : IWeaponTypeController
 {
-
-
     private readonly static PackedScene M1911Scene = GD.Load<PackedScene>("res://Weapons/Pistol/M_1911/M_1911.tscn");
     private readonly string[] _WeaponNames = { _CurrentWeapon.WeaponName };
     // public string[] WeaponNames => _WeaponNames;
@@ -13,11 +11,18 @@ public class PistolController : IWeaponTypeController
     private static readonly System.Collections.Generic.Dictionary<string, PackedScene> Scenes = new(){
         { "M1911", M1911Scene },
     };
-    private static System.Collections.Generic.Dictionary<string, int> WeaponAmmunition = new(){
-        { "M1911", Weapons["M1911"].AmmunitionInMagazine },
-    };
     private static IWeapon _CurrentWeapon = Weapons["M1911"];
     private string _CurrentWeaponName = "M1911";
+    private int _AmmunitionQuantity = 70;
+    public void Reload()
+    {
+        _AmmunitionQuantity -= AmmunitionInMagazine - CurrentWeapon.AmmunitionInMagazine;
+        CurrentWeapon.Reload();
+    }
+    public void PickUpAmmunition(int value)
+    {
+        _AmmunitionQuantity += value;
+    }
     public void ChangeWeapon(string value)
     {
         if (!_WeaponNames.Contains(value)) return;
@@ -45,14 +50,18 @@ public class PistolController : IWeaponTypeController
     public float IntervalBetweenShots => _CurrentWeapon.IntervalBetweenShots;
     public float WaitTimeToGetInHand => _CurrentWeapon.WaitTimeToGetInHand;
     public float ReloadTime => _CurrentWeapon.ReloadTime;
-    public int AmmunitionInMagazine => WeaponAmmunition[_CurrentWeapon.WeaponName];
+    public int AmmunitionInMagazine => CurrentWeapon.AmmunitionInMagazine;
+    public int AmmunitionQuantity => _AmmunitionQuantity;
     public void Shoot()
     {
-        WeaponAmmunition[_CurrentWeapon.AnimationName] -= 1;
         _CurrentWeapon.Shoot();
     }
-    public void StopShooting()
+    public void PlayShootSound()
     {
-        _CurrentWeapon.StopShooting();
+        _CurrentWeapon.PlayShootSound();
+    }
+    public void StopShootSound()
+    {
+        _CurrentWeapon.StopShootSound();
     }
 }

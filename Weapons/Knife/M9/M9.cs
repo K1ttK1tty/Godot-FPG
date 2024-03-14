@@ -17,12 +17,19 @@ public partial class M9 : Node3D, IWeapon
 
     public void Shoot()
     {
+
+    }
+    public void PlayShootSound()
+    {
         GetNode<AudioStreamPlayer>("AudioStreamPlayer").Stop();
         GetNode<AudioStreamPlayer>("AudioStreamPlayer").Play();
     }
-    public void StopShooting()
+    public void StopShootSound()
     {
         GetNode<AudioStreamPlayer>("AudioStreamPlayer").Stop();
+    }
+    public void Reload()
+    {
     }
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()

@@ -7,23 +7,31 @@ public interface IWeaponTypeController : IWeapon
     public void ChangeWeapon(string value);
     public PackedScene GetScene();
     public Node3D GetInstantiatedNode();
+    public int AmmunitionQuantity { get; }
+    public void PickUpAmmunition(int value);
 }
 public class RifleController : IWeaponTypeController
 {
     private readonly static PackedScene Ak47Scene = GD.Load<PackedScene>("res://Weapons/Rifle/AK47/Ak47.tscn");
     private readonly string[] _WeaponNames = { _CurrentWeapon.WeaponName };
-    // public string[] WeaponNames => _WeaponNames;
     private static System.Collections.Generic.Dictionary<string, IWeapon> Weapons = new(){
         { "Ak47", Ak47Scene.Instantiate<IWeapon>() },
     };
     private static readonly System.Collections.Generic.Dictionary<string, PackedScene> Scenes = new(){
         { "Ak47", Ak47Scene },
     };
-    private static System.Collections.Generic.Dictionary<string, int> WeaponAmmunition = new(){
-        { "Ak47", Weapons["Ak47"].AmmunitionInMagazine },
-    };
     private static IWeapon _CurrentWeapon = Weapons["Ak47"];
     private string _CurrentWeaponName = "Ak47";
+    private int _AmmunitionQuantity = 300;
+    public void Reload()
+    {
+        _AmmunitionQuantity -= AmmunitionInMagazine - CurrentWeapon.AmmunitionInMagazine;
+        CurrentWeapon.Reload();
+    }
+    public void PickUpAmmunition(int value)
+    {
+        _AmmunitionQuantity += value;
+    }
     public void ChangeWeapon(string value)
     {
         if (!_WeaponNames.Contains(value)) return;
@@ -51,14 +59,18 @@ public class RifleController : IWeaponTypeController
     public float IntervalBetweenShots => _CurrentWeapon.IntervalBetweenShots;
     public float WaitTimeToGetInHand => _CurrentWeapon.WaitTimeToGetInHand;
     public float ReloadTime => _CurrentWeapon.ReloadTime;
-    public int AmmunitionInMagazine => WeaponAmmunition[_CurrentWeapon.WeaponName];
+    public int AmmunitionInMagazine => CurrentWeapon.AmmunitionInMagazine;
+    public int AmmunitionQuantity => _AmmunitionQuantity;
     public void Shoot()
     {
-        WeaponAmmunition[_CurrentWeapon.AnimationName] -= 1;
         _CurrentWeapon.Shoot();
     }
-    public void StopShooting()
+    public void PlayShootSound()
     {
-        _CurrentWeapon.StopShooting();
+        _CurrentWeapon.PlayShootSound();
+    }
+    public void StopShootSound()
+    {
+        _CurrentWeapon.StopShootSound();
     }
 }

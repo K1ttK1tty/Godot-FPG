@@ -5,18 +5,19 @@ public class MeleeWeaponController : IWeaponTypeController
     private readonly static PackedScene M9Knife = GD.Load<PackedScene>("res://Weapons/Knife/M9/M9.tscn");
 
     private readonly string[] _WeaponNames = { _CurrentWeapon.WeaponName };
-    // public string[] WeaponNames => _WeaponNames;
     private static System.Collections.Generic.Dictionary<string, IWeapon> Weapons = new(){
         { "M9", M9Knife.Instantiate<IWeapon>() },
     };
     private static readonly System.Collections.Generic.Dictionary<string, PackedScene> Scenes = new(){
         { "M9", M9Knife },
     };
-    private static System.Collections.Generic.Dictionary<string, int> WeaponAmmunition = new(){
-        { "M9", Weapons["M9"].AmmunitionInMagazine },
-    };
     private static IWeapon _CurrentWeapon = Weapons["M9"];
     private string _CurrentWeaponName = "M9";
+    private int _AmmunitionQuantity = 0; // ????????????????????????????????
+    public void Reload() // ????????????????????????????????
+    {
+    }
+    public void PickUpAmmunition(int value) { }
     public void ChangeWeapon(string value)
     {
         if (!_WeaponNames.Contains(value)) return;
@@ -44,15 +45,17 @@ public class MeleeWeaponController : IWeaponTypeController
     public float IntervalBetweenShots => _CurrentWeapon.IntervalBetweenShots;
     public float WaitTimeToGetInHand => _CurrentWeapon.WaitTimeToGetInHand;
     public float ReloadTime => _CurrentWeapon.ReloadTime;
-    public int AmmunitionInMagazine => WeaponAmmunition[_CurrentWeapon.WeaponName];
+    public int AmmunitionInMagazine => 0;
+    public int AmmunitionQuantity => _AmmunitionQuantity; // ????????????????????????????????
     public void Shoot()
     {
-        GD.Print("Shoot");
-        // WeaponAmmunition[_CurrentWeapon.AnimationName] -= 1;
         _CurrentWeapon.Shoot();
     }
-    public void StopShooting()
+    public void PlayShootSound(){
+        _CurrentWeapon.PlayShootSound();
+    }
+    public void StopShootSound()
     {
-        _CurrentWeapon.StopShooting();
+        _CurrentWeapon.StopShootSound();
     }
 }
