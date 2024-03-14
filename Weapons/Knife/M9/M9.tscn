@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://Weapons/Knife/M9/M9.cs" id="1_yrr1x"]
 [ext_resource type="AudioStream" uid="uid://cghw2fmytjjdu" path="res://assets/sounds/Knife/swinging-a-knife-that-cuts-through-the-air.mp3" id="3_xkvvq"]
 
-[node name="Knife" type="Node3D"]
+[node name="M9" type="Node3D"]
 transform = Transform3D(-0.939693, 0.34202, -2.99004e-08, 0.116978, 0.321394, 0.939693, 0.321394, 0.883022, -0.34202, 0.362, 0.033, -0.278)
 script = ExtResource("1_yrr1x")
 
@@ -13,4 +13,3 @@ transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_xkvvq")
-volume_db = 8.233

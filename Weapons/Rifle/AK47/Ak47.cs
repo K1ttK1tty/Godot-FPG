@@ -10,11 +10,12 @@ public partial class Ak47 : Node3D, IWeapon
     public bool IsSoundLoopable => true;
     public float WaitTimeToGetInHand => 1f;
     public float ReloadTime => 2.3f;
-    public int Ammunition => 30;
+    public int AmmunitionInMagazine => 30;
+    // AmmunitionInMagazine in the magazine 
     public float IntervalBetweenShots => 0.12f;
 
 
-    // public float IWeapon.Ammunition { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    // public float IWeapon.AmmunitionInMagazine { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
     public void Shoot()
     {
