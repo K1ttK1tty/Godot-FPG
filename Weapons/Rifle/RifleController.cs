@@ -41,9 +41,9 @@ public class RifleController : IWeaponTypeController
     {
         _AmmunitionQuantity += value;
     }
-    public bool ChangeWeapon(IWeapon weapon)
+    public void ChangeWeapon(IWeapon weapon)
     {
-        if (!_WeaponNames.Contains(weapon.WeaponName)) return false;
+        if (!_WeaponNames.Contains(weapon.WeaponName)) return ;
 
         GD.Print("CHAGEWEAPON");
 
@@ -51,10 +51,6 @@ public class RifleController : IWeaponTypeController
         _CurrentWeaponName = weapon.WeaponName;
         _CurrentScene = Scenes[weapon.WeaponName];
         _AmmunitionInMagazine = weapon.AmmunitionInMagazine;
-        // _CurrentWeapon = Weapons[weapon];
-        // _CurrentWeaponName = weapon;
-        // _CurrentScene = Scenes[weapon];
-        return true;
     }
     public PackedScene GetScene()
     {

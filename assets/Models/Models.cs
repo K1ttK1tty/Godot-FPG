@@ -3,7 +3,6 @@ interface IWeaponController
 {
     public void SelectWeapon(string value);
     public string CurrentControllerName { get; }
-    // public void ChangeWeapon(string value);
 
 
 
@@ -38,7 +37,7 @@ interface IWeaponController
 public interface IWeaponTypeController
 {
     public IWeapon CurrentWeapon { get; }
-    public bool ChangeWeapon(IWeapon value);
+    public void ChangeWeapon(IWeapon value);
     public PackedScene GetScene();
     public Node3D GetInstantiatedNode();
     public int AmmunitionQuantity { get; }
@@ -67,7 +66,7 @@ public interface IWeaponTypeController
 }
 public interface IWeapon
 {
-
+    public string ControllerName { get; }
     public string WeaponName { get; }
     public string WeaponType { get; } // melee | range
     public float Damage { get; }

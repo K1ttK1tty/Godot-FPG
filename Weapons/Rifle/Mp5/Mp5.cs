@@ -2,6 +2,7 @@ using Godot;
 
 public partial class Mp5 : Node3D, IWeapon
 {
+    public string ControllerName => "RifleController";
     private int _AmmunitionInMagazine = 30;
     public string WeaponName => "Mp5";
     public string WeaponType => "Range";

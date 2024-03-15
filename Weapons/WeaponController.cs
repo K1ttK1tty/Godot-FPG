@@ -59,9 +59,16 @@ public class WeaponController : IWeaponController
     }
     public void ChangeWeapon(IWeapon weapon)
     {
-        if (!_CurrentController.ChangeWeapon(weapon)) return;
+        if (Controllers[weapon.ControllerName] == null)
+        {
+            throw new System.Exception("Weapon doesn't exeist");
+        }
+
+        _CurrentControllerName = weapon.ControllerName;
+        _CurrentController = Controllers[_CurrentControllerName];
+        _CurrentController.ChangeWeapon(weapon);
         _CurrentWeapon = Controllers[_CurrentControllerName].CurrentWeapon;
-        _CurrentWeaponName = Controllers[_CurrentControllerName].WeaponName;
+        // _CurrentWeaponName = Controllers[_CurrentControllerName].WeaponName;
     }
     public void Shoot()
     {

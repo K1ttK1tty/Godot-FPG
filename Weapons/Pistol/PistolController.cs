@@ -12,9 +12,7 @@ public class PistolController : IWeaponTypeController
     };
     private static IWeapon _CurrentWeapon = Weapons["M1911"];
     private static string _CurrentWeaponName = "M1911";
-    
     private int _AmmunitionQuantity = 70;
-
     public IWeapon CurrentWeapon { get => _CurrentWeapon; }
     public string WeaponName => _CurrentWeaponName;
     public string WeaponType => _CurrentWeapon.WeaponType;
@@ -38,19 +36,16 @@ public class PistolController : IWeaponTypeController
     {
         _AmmunitionQuantity += value;
     }
-    public bool ChangeWeapon(IWeapon weapon)
+    public void ChangeWeapon(IWeapon weapon)
     {
-        if (!_WeaponNames.Contains(weapon.WeaponName)) return false;
+        if (!_WeaponNames.Contains(weapon.WeaponName)) return ;
 
         GD.Print(weapon);
 
         _CurrentWeapon = weapon;
         _CurrentWeaponName = weapon.WeaponName;
         _CurrentScene = Scenes[weapon.WeaponName];
-        // _CurrentWeapon = Weapons[weapon];
-        // _CurrentWeaponName = weapon;
-        // _CurrentScene = Scenes[weapon];
-        return true;
+        // _AmmunitionInMagazine = weapon.AmmunitionInMagazine;
     }
     public PackedScene GetScene()
     {

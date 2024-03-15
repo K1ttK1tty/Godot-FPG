@@ -1,5 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://ebulab817kgc"]
+[gd_scene load_steps=15 format=3 uid="uid://ebulab817kgc"]
 
+[ext_resource type="Script" path="res://Main.cs" id="1_8jtur"]
 [ext_resource type="PackedScene" uid="uid://bnaqdt5whaine" path="res://Player.tscn" id="1_cb44h"]
 [ext_resource type="PackedScene" uid="uid://mx7sy5hpxyp1" path="res://Weapons/Rifle/AK47/Ak47.tscn" id="2_fkcp1"]
 [ext_resource type="PackedScene" uid="uid://dyf0oswnucic5" path="res://Weapons/Rifle/Mp5/Mp5.tscn" id="3_ylvbg"]
@@ -41,6 +42,7 @@ material = SubResource("StandardMaterial3D_y51nr")
 size = Vector3(5, 0.7, 4)
 
 [node name="Main" type="Node"]
+script = ExtResource("1_8jtur")
 
 [node name="Ground" type="StaticBody3D" parent="."]
 

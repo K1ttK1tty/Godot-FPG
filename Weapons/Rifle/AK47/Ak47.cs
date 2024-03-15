@@ -1,6 +1,7 @@
 using Godot;
 public partial class Ak47 : Node3D, IWeapon
 {
+    public string ControllerName => "RifleController";
     public float Damage => 15;
     public string WeaponName => "Ak47";
     public string WeaponType => "Range";

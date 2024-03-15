@@ -7,9 +7,10 @@ albedo_color = Color(1, 1, 0.0980392, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_24udp"]
 material = SubResource("StandardMaterial3D_dqu14")
-size = Vector3(0.02, 0.02, 0.1)
+size = Vector3(0.02, 0.02, 0.05)
 
 [node name="Bullet" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.131135, 0)
 script = ExtResource("1_5qnoc")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

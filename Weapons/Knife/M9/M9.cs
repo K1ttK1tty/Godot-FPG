@@ -1,6 +1,7 @@
 using Godot;
 public partial class M9 : Node3D, IWeapon
 {
+    public string ControllerName => "MeleeWeaponController";
     public float Damage => 7;
     public string WeaponName => "Knife";
     public string WeaponType => "Melee";

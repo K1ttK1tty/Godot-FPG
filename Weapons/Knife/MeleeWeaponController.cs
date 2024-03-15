@@ -3,7 +3,6 @@ using Godot;
 public class MeleeWeaponController : IWeaponTypeController
 {
     private readonly static PackedScene M9Knife = GD.Load<PackedScene>("res://Weapons/Knife/M9/M9.tscn");
-
     private readonly string[] _WeaponNames = { _CurrentWeapon.WeaponName };
     private static System.Collections.Generic.Dictionary<string, IWeapon> Weapons = new(){
         { "M9", M9Knife.Instantiate<IWeapon>() },
@@ -33,19 +32,15 @@ public class MeleeWeaponController : IWeaponTypeController
     {
     }
     public void PickUpAmmunition(int value) { }
-    public bool ChangeWeapon(IWeapon weapon)
+    public void ChangeWeapon(IWeapon weapon)
     {
-        if (!_WeaponNames.Contains(weapon.WeaponName)) return false;
+        if (!_WeaponNames.Contains(weapon.WeaponName)) return ;
 
         GD.Print(weapon);
 
         _CurrentWeapon = weapon;
         _CurrentWeaponName = weapon.WeaponName;
         _CurrentScene = Scenes[weapon.WeaponName];
-        // _CurrentWeapon = Weapons[weapon];
-        // _CurrentWeaponName = weapon;
-        // _CurrentScene = Scenes[weapon];
-        return true;
     }
     public PackedScene GetScene()
     {

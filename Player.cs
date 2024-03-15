@@ -59,16 +59,9 @@ public partial class Player : CharacterBody3D
         Node3D weaponContainer = GetNode<Node3D>("RotationHelper/Weapon");
         weaponContainer.GetChild(0).QueueFree();
 
-        // Node3D previosWeapon = (Node3D)weaponContainer.GetChild(0);
-        // MoveChild(previosWeapon,)
-        // previosWeapon.MoveChild()
-        // previosWeapon.Position = new Vector3(0,0,0);
-        // previosWeapon
-
         Node3D newWeapon = Weapon.GetInstantiatedNode();
         newWeapon.ProcessMode = ProcessModeEnum.Disabled;
         weaponContainer.AddChild(newWeapon);
-
         _IsChangeWeaponStage = true;
         GetNode<Timer>("ShootTimer").Stop();
         GetNode<Timer>("ChangeWeaponTimer").Start();
@@ -131,7 +124,6 @@ public partial class Player : CharacterBody3D
             }
             Weapon.Shoot();
             GD.Print(Weapon.AmmunitionInMagazine + " " + Weapon.WeaponName);
-            // GetNode<IWeapon>($"RotationHelper/Weapon/{Weapon.WeaponName}").PlayShootSound();
             Node3D weaponWrapperNode = GetNode<Node3D>($"RotationHelper/Weapon");
             IWeapon weaponNode = (IWeapon)weaponWrapperNode.GetChild(0);
             weaponNode.PlayShootSound();
@@ -156,7 +148,6 @@ public partial class Player : CharacterBody3D
     {
         if (Weapon.WeaponType == "Range")
         {
-            // Node3D gun = GetNode<Node3D>($"RotationHelper/Weapon/{Weapon.WeaponName}");
             Node3D gun = (Node3D)GetNode<Node3D>($"RotationHelper/Weapon").GetChild(0);
             NormalBullet bullet = BulletScene.Instantiate<NormalBullet>();
             bullet.Position = gun.Position;
@@ -180,7 +171,6 @@ public partial class Player : CharacterBody3D
             return;
         }
         Weapon.Shoot();
-        // GetNode<IWeapon>($"RotationHelper/Weapon/{Weapon.WeaponName}").PlayShootSound();
         Node3D weaponWrapperNode = GetNode<Node3D>($"RotationHelper/Weapon");
         IWeapon weaponNode = (IWeapon)weaponWrapperNode.GetChild(0);
         weaponNode.PlayShootSound();

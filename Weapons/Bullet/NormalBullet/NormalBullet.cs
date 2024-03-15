@@ -12,7 +12,8 @@ public partial class NormalBullet : Node3D
         RayCast3D Ray = GetNode<RayCast3D>("RayCast3D");
         if (Ray.IsColliding())
         {
-            GD.Print("DFdfdf");
+            GD.Print(Ray.GetCollider());
+            QueueFree();
         }
     }
     private void OnTimerTimeout()
