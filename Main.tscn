@@ -1,6 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://ebulab817kgc"]
+[gd_scene load_steps=14 format=3 uid="uid://ebulab817kgc"]
 
 [ext_resource type="PackedScene" uid="uid://bnaqdt5whaine" path="res://Player.tscn" id="1_cb44h"]
+[ext_resource type="PackedScene" uid="uid://mx7sy5hpxyp1" path="res://Weapons/Rifle/AK47/Ak47.tscn" id="2_fkcp1"]
+[ext_resource type="PackedScene" uid="uid://dyf0oswnucic5" path="res://Weapons/Rifle/Mp5/Mp5.tscn" id="3_ylvbg"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8mf4w"]
 size = Vector3(150, 2, 150)
@@ -84,3 +86,9 @@ light_energy = 2.067
 
 [node name="Player" parent="." instance=ExtResource("1_cb44h")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.5495, 0)
+
+[node name="Ak47" parent="." instance=ExtResource("2_fkcp1")]
+transform = Transform3D(-0.0523359, 0, 0.99863, 0, 1, 0, -0.99863, 0, -0.0523359, 1.83807, 1.18048, -12.4625)
+
+[node name="Mp5" parent="." instance=ExtResource("3_ylvbg")]
+transform = Transform3D(-0.99863, 0, -0.052336, 0, 1, 0, 0.052336, 0, -0.99863, 5.09762, 1.59944, -12.0568)

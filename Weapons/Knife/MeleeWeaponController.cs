@@ -11,30 +11,11 @@ public class MeleeWeaponController : IWeaponTypeController
     private static readonly System.Collections.Generic.Dictionary<string, PackedScene> Scenes = new(){
         { "M9", M9Knife },
     };
+    private PackedScene _CurrentScene = Scenes[_CurrentWeaponName];
+
     private static IWeapon _CurrentWeapon = Weapons["M9"];
-    private string _CurrentWeaponName = "M9";
+    private static string _CurrentWeaponName = "M9";
     private int _AmmunitionQuantity = 0; // ????????????????????????????????
-    public void Reload() // ????????????????????????????????
-    {
-    }
-    public void PickUpAmmunition(int value) { }
-    public void ChangeWeapon(string value)
-    {
-        if (!_WeaponNames.Contains(value)) return;
-
-        GD.Print("There is a weapon!!!!");
-        _CurrentWeapon = Weapons[value];
-        _CurrentWeaponName = value;
-    }
-    public PackedScene GetScene()
-    {
-        return M9Knife;
-    }
-    public Node3D GetInstantiatedNode()
-    {
-        return GetScene().Instantiate<Node3D>();
-    }
-
     public IWeapon CurrentWeapon { get => _CurrentWeapon; }
     public string WeaponName => _CurrentWeaponName;
     public string WeaponType => _CurrentWeapon.WeaponType;
@@ -47,15 +28,47 @@ public class MeleeWeaponController : IWeaponTypeController
     public float ReloadTime => _CurrentWeapon.ReloadTime;
     public int AmmunitionInMagazine => 0;
     public int AmmunitionQuantity => _AmmunitionQuantity; // ????????????????????????????????
+    public bool WeaponInHand => false;
+    public void Reload() // ????????????????????????????????
+    {
+    }
+    public void PickUpAmmunition(int value) { }
+    public bool ChangeWeapon(IWeapon weapon)
+    {
+        if (!_WeaponNames.Contains(weapon.WeaponName)) return false;
+
+        GD.Print(weapon);
+
+        _CurrentWeapon = weapon;
+        _CurrentWeaponName = weapon.WeaponName;
+        _CurrentScene = Scenes[weapon.WeaponName];
+        // _CurrentWeapon = Weapons[weapon];
+        // _CurrentWeaponName = weapon;
+        // _CurrentScene = Scenes[weapon];
+        return true;
+    }
+    public PackedScene GetScene()
+    {
+        return Scenes[_CurrentWeaponName];
+    }
+    public Node3D GetInstantiatedNode()
+    {
+        return GetScene().Instantiate<Node3D>();
+    }
     public void Shoot()
     {
         _CurrentWeapon.Shoot();
     }
-    public void PlayShootSound(){
+    public void PlayShootSound()
+    {
         _CurrentWeapon.PlayShootSound();
     }
     public void StopShootSound()
     {
         _CurrentWeapon.StopShootSound();
+    }
+    public void ShowWeaponLabel()
+    {
+
     }
 }

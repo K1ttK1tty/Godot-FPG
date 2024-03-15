@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://dyf0oswnucic5"]
+
+[ext_resource type="PackedScene" uid="uid://4a3plq1qfu1p" path="res://assets/3Dmodels/Mp5/cadnav.com_model/Models_F0501A061/WPN_MP5.FBX" id="1_77g6c"]
+[ext_resource type="Script" path="res://Weapons/Rifle/Mp5/Mp5.cs" id="1_i22xy"]
+[ext_resource type="AudioStream" uid="uid://c4lnqrp5rscby" path="res://assets/sounds/rifle/rifle_fire_1.wav" id="2_t1sfn"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t5b0q"]
+size = Vector3(0.0609741, 0.269623, 0.715912)
+
+[node name="RigidBody3D" type="RigidBody3D"]
+transform = Transform3D(-0.99863, 0, -0.052336, 0, 1, 0, 0.052336, 0, -0.99863, 0.38, -0.238, -0.458)
+script = ExtResource("1_i22xy")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(0, 0, 0, 0, 0, 0, 0, 0, 0, 0.00314879, 0.293661, -0.0600825)
+billboard = 1
+text = "Mp5"
+font_size = 25
+
+[node name="gun" parent="." instance=ExtResource("1_77g6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_t1sfn")
+volume_db = -6.559
+pitch_scale = 0.75
+mix_target = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.15527e-05, -0.0364227, -0.0735016)
+shape = SubResource("BoxShape3D_t5b0q")

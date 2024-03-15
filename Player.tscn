@@ -133,12 +133,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.535342, 0)
 shape = SubResource("BoxShape3D_u1n85")
 
 [node name="RotationHelper" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.776433, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.956, 0)
 
 [node name="Camera3D" type="Camera3D" parent="RotationHelper"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.169916, 0.0667626)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.067)
 
 [node name="Weapon" type="Node3D" parent="RotationHelper"]
+
+[node name="RayCast3D" type="RayCast3D" parent="RotationHelper"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.00200003, 0)
 
 [node name="ShootTimer" type="Timer" parent="."]
 wait_time = 0.12

@@ -1,6 +1,5 @@
 using Godot;
 public partial class Ak47 : Node3D, IWeapon
-
 {
     public float Damage => 15;
     public string WeaponName => "Ak47";
@@ -12,16 +11,15 @@ public partial class Ak47 : Node3D, IWeapon
     public float ReloadTime => 2.3f;
     public int AmmunitionInMagazine => _AmmunitionInMagazine;
     private int _AmmunitionInMagazine = 30;
-    public float IntervalBetweenShots => 0.12f;
+    public float IntervalBetweenShots => 0.13f;
+    public bool WeaponInHand => false;
 
     public void Shoot()
     {
         _AmmunitionInMagazine -= 1;
-        GD.Print(_AmmunitionInMagazine + "AK47");
     }
     public void PlayShootSound()
     {
-
         GetNode<AudioStreamPlayer>("AudioStreamPlayer").Stop();
         GetNode<AudioStreamPlayer>("AudioStreamPlayer").Play();
     }
@@ -29,18 +27,20 @@ public partial class Ak47 : Node3D, IWeapon
     {
         GetNode<AudioStreamPlayer>("AudioStreamPlayer").Stop();
     }
-
     public void Reload()
     {
         _AmmunitionInMagazine = 30;
     }
-    // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
     }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
+    }
+    public void ShowWeaponLabel()
+    {
+        if (WeaponInHand) return;
+        GetNode<Label3D>("Label3D").Text = WeaponName;
+        GetNode<Label3D>("Label3D").Scale = new Vector3(1, 1, 1);
     }
 }

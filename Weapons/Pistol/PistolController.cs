@@ -4,7 +4,6 @@ public class PistolController : IWeaponTypeController
 {
     private readonly static PackedScene M1911Scene = GD.Load<PackedScene>("res://Weapons/Pistol/M_1911/M_1911.tscn");
     private readonly string[] _WeaponNames = { _CurrentWeapon.WeaponName };
-    // public string[] WeaponNames => _WeaponNames;
     private static System.Collections.Generic.Dictionary<string, IWeapon> Weapons = new(){
         { "M1911", M1911Scene.Instantiate<IWeapon>() },
     };
@@ -12,33 +11,9 @@ public class PistolController : IWeaponTypeController
         { "M1911", M1911Scene },
     };
     private static IWeapon _CurrentWeapon = Weapons["M1911"];
-    private string _CurrentWeaponName = "M1911";
+    private static string _CurrentWeaponName = "M1911";
+    
     private int _AmmunitionQuantity = 70;
-    public void Reload()
-    {
-        _AmmunitionQuantity -= AmmunitionInMagazine - CurrentWeapon.AmmunitionInMagazine;
-        CurrentWeapon.Reload();
-    }
-    public void PickUpAmmunition(int value)
-    {
-        _AmmunitionQuantity += value;
-    }
-    public void ChangeWeapon(string value)
-    {
-        if (!_WeaponNames.Contains(value)) return;
-
-        GD.Print("There is a weapon!!!!");
-        _CurrentWeapon = Weapons[value];
-        _CurrentWeaponName = value;
-    }
-    public PackedScene GetScene()
-    {
-        return M1911Scene;
-    }
-    public Node3D GetInstantiatedNode()
-    {
-        return GetScene().Instantiate<Node3D>();
-    }
 
     public IWeapon CurrentWeapon { get => _CurrentWeapon; }
     public string WeaponName => _CurrentWeaponName;
@@ -52,6 +27,39 @@ public class PistolController : IWeaponTypeController
     public float ReloadTime => _CurrentWeapon.ReloadTime;
     public int AmmunitionInMagazine => CurrentWeapon.AmmunitionInMagazine;
     public int AmmunitionQuantity => _AmmunitionQuantity;
+    public bool WeaponInHand => false;
+    private PackedScene _CurrentScene = Scenes[_CurrentWeaponName];
+    public void Reload()
+    {
+        _AmmunitionQuantity -= AmmunitionInMagazine - CurrentWeapon.AmmunitionInMagazine;
+        CurrentWeapon.Reload();
+    }
+    public void PickUpAmmunition(int value)
+    {
+        _AmmunitionQuantity += value;
+    }
+    public bool ChangeWeapon(IWeapon weapon)
+    {
+        if (!_WeaponNames.Contains(weapon.WeaponName)) return false;
+
+        GD.Print(weapon);
+
+        _CurrentWeapon = weapon;
+        _CurrentWeaponName = weapon.WeaponName;
+        _CurrentScene = Scenes[weapon.WeaponName];
+        // _CurrentWeapon = Weapons[weapon];
+        // _CurrentWeaponName = weapon;
+        // _CurrentScene = Scenes[weapon];
+        return true;
+    }
+    public PackedScene GetScene()
+    {
+        return Scenes[_CurrentWeaponName];
+    }
+    public Node3D GetInstantiatedNode()
+    {
+        return GetScene().Instantiate<Node3D>();
+    }
     public void Shoot()
     {
         _CurrentWeapon.Shoot();
@@ -63,5 +71,9 @@ public class PistolController : IWeaponTypeController
     public void StopShootSound()
     {
         _CurrentWeapon.StopShootSound();
+    }
+    public void ShowWeaponLabel()
+    {
+
     }
 }
