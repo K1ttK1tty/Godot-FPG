@@ -68,7 +68,7 @@ public class WeaponController : IWeaponController
         _CurrentController = Controllers[_CurrentControllerName];
         _CurrentController.ChangeWeapon(weapon);
         _CurrentWeapon = Controllers[_CurrentControllerName].CurrentWeapon;
-        // _CurrentWeaponName = Controllers[_CurrentControllerName].WeaponName;
+        _CurrentWeaponName = Controllers[_CurrentControllerName].WeaponName;
     }
     public void Shoot()
     {

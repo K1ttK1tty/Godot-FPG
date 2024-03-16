@@ -1,6 +1,9 @@
 using Godot;
-public partial class NormalBullet : Node3D
+
+public partial class Empty_ray : Node3D
 {
+    [Signal]
+    public delegate void CollideEventHandler(Vector3 myString);
     [Export] const float speed = 55f;
     public override void _Ready()
     {
@@ -12,7 +15,7 @@ public partial class NormalBullet : Node3D
         RayCast3D Ray = GetNode<RayCast3D>("RayCast3D");
         if (Ray.IsColliding())
         {
-            // GD.Print(Ray.GetCollider());
+            EmitSignal(SignalName.Collide, GlobalPosition);
             QueueFree();
         }
     }

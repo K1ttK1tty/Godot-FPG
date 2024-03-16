@@ -8,16 +8,21 @@ public partial class Player : CharacterBody3D
     private float _SprintSpeed = _Speed * 1.7f;
     private float _JumpVelocity = 5.2f;
     private readonly static PackedScene BulletScene = GD.Load<PackedScene>("res://Weapons/Bullet/NormalBullet/NormalBullet.tscn");
+    private readonly static PackedScene EmptyRay = GD.Load<PackedScene>("res://Empty_ray.tscn");
     private const float _MouseSensitivity = 0.002f;
     private float _Gravity = 18;
     private bool _IsChangeWeaponStage = false;
     private bool _IsReloading = false;
+    private bool _IsTeleportTimercooldown = false;
+    private bool _IsTeleportReady = false;
+    private bool _TimerChargeStage = false;
     private WeaponController Weapon;
     public override void _PhysicsProcess(double delta)
     {
         Movement(delta);
         Fire();
         RayCollidesWithWeapon();
+        Teleport();
     }
     public override void _Ready()
     {
@@ -26,7 +31,7 @@ public partial class Player : CharacterBody3D
         Node3D newWeapon = Weapon.GetInstantiatedNode();
         newWeapon.ProcessMode = ProcessModeEnum.Disabled;
 
-        GetNode<Node3D>("RotationHelper/Weapon").AddChild(newWeapon);
+        // GetNode<Node3D>("RotationHelper/Weapon").AddChild(newWeapon);
     }
     private void OnChangeWeaponTimerTimeout()
     {
@@ -35,23 +40,21 @@ public partial class Player : CharacterBody3D
 
     private void _SelectWeapon()
     {
-        if (!_IsChangeWeaponStage)
+        if (_IsChangeWeaponStage) return;
+        if (Input.IsActionJustPressed("SelectMeele"))
         {
-            if (Input.IsActionJustPressed("SelectMeele"))
-            {
-                Weapon.SelectWeapon("MeleeWeaponController");
-                _SelectWeaponLogic();
-            }
-            else if (Input.IsActionJustPressed("SelectPistol"))
-            {
-                Weapon.SelectWeapon("PistolController");
-                _SelectWeaponLogic();
-            }
-            else if (Input.IsActionJustPressed("SelectRifle"))
-            {
-                Weapon.SelectWeapon("RifleController");
-                _SelectWeaponLogic();
-            }
+            Weapon.SelectWeapon("MeleeWeaponController");
+            _SelectWeaponLogic();
+        }
+        else if (Input.IsActionJustPressed("SelectPistol"))
+        {
+            Weapon.SelectWeapon("PistolController");
+            _SelectWeaponLogic();
+        }
+        else if (Input.IsActionJustPressed("SelectRifle"))
+        {
+            Weapon.SelectWeapon("RifleController");
+            _SelectWeaponLogic();
         }
     }
     private void _SelectWeaponLogic()
@@ -98,8 +101,100 @@ public partial class Player : CharacterBody3D
             velocity.X = Mathf.MoveToward(Velocity.X, 0, _Speed);
             velocity.Z = Mathf.MoveToward(Velocity.Z, 0, _Speed);
         }
+
         Velocity = velocity;
         MoveAndSlide();
+    }
+    private void Teleport()
+    {
+        if (_IsTeleportTimercooldown) return;
+        if (_IsTeleportReady && Input.IsActionJustPressed("AbortTeleport")) AbortTeleport();
+        if (Input.IsActionJustReleased("Teleport") && _TimerChargeStage && !_IsTeleportReady) AbortTeleport();
+        if (_IsTeleportReady && Input.IsActionJustReleased("Teleport"))
+        {
+            GD.Print("Teleport");
+            Node3D rotationHelper = GetNode<Node3D>($"RotationHelper");
+            Empty_ray ray = EmptyRay.Instantiate<Empty_ray>();
+            ray.Rotation = rotationHelper.Rotation;
+
+            ray.Position = new Vector3(GetPositionDelta().X, GetPositionDelta().Y, GetPositionDelta().Z);
+            ray.Collide += OnCollide;
+            AddChild(ray);
+
+            AbortTeleport();
+        }
+        if (Input.IsActionPressed("Teleport") && !_TimerChargeStage)
+        {
+            Timer TeleportTimer = GetNode<Timer>("IsTeleportReadyTimer");
+            TeleportTimer.WaitTime = 1;
+            TeleportTimer.Start();
+            _TimerChargeStage = true;
+            GD.Print("Preparation for teleport");
+        }
+    }
+
+    private void AbortTeleport()
+    {
+        _IsTeleportTimercooldown = true;
+        Timer timer = GetNode<Timer>("TeleportCooldownTimer");
+        timer.WaitTime = 1;
+        timer.Start();
+        GetNode<Timer>("IsTeleportReadyTimer").Stop();
+        _IsTeleportReady = false;
+        _TimerChargeStage = false;
+        GD.Print("Teleport aborted");
+        return;
+    }
+
+    private void OnCollide(Vector3 ray)
+    {
+        float zCoord;
+        float yCoord;
+        float xCoord;
+        if (ray.Z > 0)
+        {
+            zCoord = ray.Z - 0.25f;
+        }
+        else
+        {
+            zCoord = ray.Z + 0.25f;
+        }
+
+        if (ray.Y > 0)
+        {
+            yCoord = ray.Y - 0.7f;
+        }
+        else
+        {
+            yCoord = ray.Y + 0.7f;
+        }
+
+        if (ray.X > 0)
+        {
+            xCoord = ray.X;
+        }
+        else
+        {
+            xCoord = ray.X;
+        }
+
+        Position = new Vector3(xCoord, yCoord, zCoord);
+        Timer timer = GetNode<Timer>("TeleportCooldownTimer");
+        timer.WaitTime = 1;
+        // timer.Start();
+        _IsTeleportTimercooldown = true;
+        GD.Print("Teleported");
+    }
+
+    private void OnTeleportCooldownTimer()
+    {
+        _IsTeleportTimercooldown = false;
+        _IsTeleportReady = false;
+    }
+    private void OnTeleportIsReadyTimer()
+    {
+        _IsTeleportReady = true;
+        GD.Print("Teleport Ready");
     }
     private void Fire()
     {

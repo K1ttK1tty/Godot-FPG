@@ -935,7 +935,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00109887, 0.287225, 0.01019
 shape = SubResource("BoxShape3D_nt58j")
 
 [node name="RootNode" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="goh_lowLow_Poly" type="MeshInstance3D" parent="RootNode"]
 mesh = SubResource("ArrayMesh_g4uhl")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://ebulab817kgc"]
+[gd_scene load_steps=21 format=3 uid="uid://ebulab817kgc"]
 
 [ext_resource type="Script" path="res://Main.cs" id="1_8jtur"]
 [ext_resource type="PackedScene" uid="uid://bnaqdt5whaine" path="res://Player.tscn" id="1_cb44h"]
@@ -41,6 +41,26 @@ albedo_color = Color(0.94902, 0.219608, 0.494118, 1)
 material = SubResource("StandardMaterial3D_y51nr")
 size = Vector3(5, 0.7, 4)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_30r56"]
+albedo_color = Color(0.290196, 1, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1siu7"]
+material = SubResource("StandardMaterial3D_30r56")
+size = Vector3(20, 10, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pi1by"]
+size = Vector3(20, 10, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kggys"]
+albedo_color = Color(1, 0.211765, 0.258824, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0xhom"]
+material = SubResource("StandardMaterial3D_kggys")
+size = Vector3(20, 1, 5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_q8qiw"]
+size = Vector3(20, 1, 5)
+
 [node name="Main" type="Node"]
 script = ExtResource("1_8jtur")
 
@@ -82,12 +102,32 @@ shape = SubResource("BoxShape3D_ve7to")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Environment/RigidBody3D3"]
 mesh = SubResource("BoxMesh_sgj30")
 
+[node name="StaticBody3D" type="StaticBody3D" parent="Ground/Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.9134, 0, -12.2005)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Environment/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+mesh = SubResource("BoxMesh_1siu7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Environment/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+shape = SubResource("BoxShape3D_pi1by")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="Ground/Environment"]
+transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, -26.4359, 3.48818, -13.1538)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/Environment/StaticBody3D2"]
+mesh = SubResource("BoxMesh_0xhom")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/Environment/StaticBody3D2"]
+shape = SubResource("BoxShape3D_q8qiw")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.0988025, -0.70132, 0.705966, -0.0972049, 0.712847, 0.694551, -0.990348, -7.52319e-09, -0.138603, 39.822, 34.0215, 3.15146)
 light_energy = 2.067
 
 [node name="Player" parent="." instance=ExtResource("1_cb44h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.5495, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.3259, 0.599996, -4.94)
 
 [node name="Ak47" parent="." instance=ExtResource("2_fkcp1")]
 transform = Transform3D(-0.0523359, 0, 0.99863, 0, 1, 0, -0.99863, 0, -0.0523359, 1.83807, 1.18048, -12.4625)
