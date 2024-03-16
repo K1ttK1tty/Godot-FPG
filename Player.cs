@@ -31,7 +31,7 @@ public partial class Player : CharacterBody3D
         Node3D newWeapon = Weapon.GetInstantiatedNode();
         newWeapon.ProcessMode = ProcessModeEnum.Disabled;
 
-        // GetNode<Node3D>("RotationHelper/Weapon").AddChild(newWeapon);
+        GetNode<Node3D>("RotationHelper/Weapon").AddChild(newWeapon);
     }
     private void OnChangeWeaponTimerTimeout()
     {
@@ -60,7 +60,7 @@ public partial class Player : CharacterBody3D
     private void _SelectWeaponLogic()
     {
         Node3D weaponContainer = GetNode<Node3D>("RotationHelper/Weapon");
-        weaponContainer.GetChild(0).QueueFree();
+        weaponContainer.GetChild(0)?.QueueFree();
 
         Node3D newWeapon = Weapon.GetInstantiatedNode();
         newWeapon.ProcessMode = ProcessModeEnum.Disabled;
@@ -113,11 +113,19 @@ public partial class Player : CharacterBody3D
         if (_IsTeleportReady && Input.IsActionJustReleased("Teleport"))
         {
             GD.Print("Teleport");
-            Node3D rotationHelper = GetNode<Node3D>($"RotationHelper");
+
+            // RayCast3D PlayerRay = GetNode<Node3D>("RotationHelper").GetNode<RayCast3D>("RayCast3D");
+            // Empty_ray TeleportRay = EmptyRay.Instantiate<Empty_ray>();
+            // TeleportRay.Position = PlayerRay.GlobalPosition;
+            // TeleportRay.Basis = PlayerRay.GlobalTransform.Basis;
+            // TeleportRay.Collide += OnCollide;
+
+
+            Node3D rotationHelper = GetNode<Node3D>("RotationHelper");
             Empty_ray ray = EmptyRay.Instantiate<Empty_ray>();
             ray.Rotation = rotationHelper.Rotation;
-
-            ray.Position = new Vector3(GetPositionDelta().X, GetPositionDelta().Y, GetPositionDelta().Z);
+            Node3D RotationHelper = GetNode<Node3D>("RotationHelper");
+            ray.Position = RotationHelper.Position;
             ray.Collide += OnCollide;
             AddChild(ray);
 
@@ -151,37 +159,17 @@ public partial class Player : CharacterBody3D
         float zCoord;
         float yCoord;
         float xCoord;
-        if (ray.Z > 0)
-        {
-            zCoord = ray.Z - 0.25f;
-        }
-        else
-        {
-            zCoord = ray.Z + 0.25f;
-        }
+        if (ray.Z > 0) zCoord = ray.Z - 0.3f;
+        else zCoord = ray.Z + 0.3f;
 
-        if (ray.Y > 0)
-        {
-            yCoord = ray.Y - 0.7f;
-        }
-        else
-        {
-            yCoord = ray.Y + 0.7f;
-        }
+        if (ray.Y > 0) yCoord = ray.Y - 0.6f;
+        else yCoord = ray.Y + 0.6f;
 
-        if (ray.X > 0)
-        {
-            xCoord = ray.X;
-        }
-        else
-        {
-            xCoord = ray.X;
-        }
+        if (ray.X > 0) xCoord = ray.X;
+        else xCoord = ray.X;
 
+        // Position = ray;
         Position = new Vector3(xCoord, yCoord, zCoord);
-        Timer timer = GetNode<Timer>("TeleportCooldownTimer");
-        timer.WaitTime = 1;
-        // timer.Start();
         _IsTeleportTimercooldown = true;
         GD.Print("Teleported");
     }
@@ -190,11 +178,12 @@ public partial class Player : CharacterBody3D
     {
         _IsTeleportTimercooldown = false;
         _IsTeleportReady = false;
+        GD.Print("TeleportNowIsAvailable");
     }
     private void OnTeleportIsReadyTimer()
     {
         _IsTeleportReady = true;
-        GD.Print("Teleport Ready");
+        GD.Print("TeleportIsCharged");
     }
     private void Fire()
     {
@@ -243,11 +232,12 @@ public partial class Player : CharacterBody3D
     {
         if (Weapon.WeaponType == "Range")
         {
-            Node3D gun = (Node3D)GetNode<Node3D>($"RotationHelper/Weapon").GetChild(0);
+            RayCast3D ray = GetNode<Node3D>("RotationHelper/Weapon").GetChild(0).GetNode<RayCast3D>("RayCast3D");
             NormalBullet bullet = BulletScene.Instantiate<NormalBullet>();
-            bullet.Position = gun.Position;
-            bullet.Transform = GetNode<Node3D>("RotationHelper").Transform;
-            AddChild(bullet);
+            bullet.Position = ray.GlobalPosition;
+            bullet.Basis = ray.GlobalTransform.Basis;
+
+            GetParent().AddChild(bullet);
         }
     }
     private void OnShootTimerTimeout()

@@ -4,7 +4,7 @@ public partial class Empty_ray : Node3D
 {
     [Signal]
     public delegate void CollideEventHandler(Vector3 myString);
-    [Export] const float speed = 55f;
+    [Export] const float speed = 60;
     public override void _Ready()
     {
         GetNode<Timer>("Timer").Start();
@@ -15,6 +15,8 @@ public partial class Empty_ray : Node3D
         RayCast3D Ray = GetNode<RayCast3D>("RayCast3D");
         if (Ray.IsColliding())
         {
+            // GD.Print(Position);
+            GD.Print("COLLIDE");
             EmitSignal(SignalName.Collide, GlobalPosition);
             QueueFree();
         }

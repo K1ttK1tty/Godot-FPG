@@ -8,7 +8,7 @@
 size = Vector3(0.0609741, 0.269623, 0.715912)
 
 [node name="RigidBody3D" type="RigidBody3D"]
-transform = Transform3D(-0.99863, 0, -0.052336, 0, 1, 0, 0.052336, 0, -0.99863, 0.38, -0.238, -0.458)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.38, -0.238, -0.458)
 script = ExtResource("1_i22xy")
 
 [node name="Label3D" type="Label3D" parent="."]
@@ -18,6 +18,7 @@ text = "Mp5"
 font_size = 25
 
 [node name="gun" parent="." instance=ExtResource("1_77g6c")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_t1sfn")
@@ -28,3 +29,6 @@ mix_target = 1
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.15527e-05, -0.0364227, -0.0735016)
 shape = SubResource("BoxShape3D_t5b0q")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000325799, 0.0352509, -0.29598)

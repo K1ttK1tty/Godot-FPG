@@ -16,7 +16,7 @@ script = ExtResource("1_lmq6k")
 mesh = SubResource("BoxMesh_algvg")
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.0019092)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.142314)
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true

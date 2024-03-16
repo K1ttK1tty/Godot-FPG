@@ -923,7 +923,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_m7mal")
 
 [node name="Ak47" type="RigidBody3D"]
-transform = Transform3D(-0.0523359, 0, 0.99863, 0, 1, 0, -0.99863, 0, -0.0523359, 0.482, -0.726, -0.739)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.482, -0.726, -0.739)
 mass = 0.01
 script = ExtResource("1_1f5wh")
 
@@ -931,10 +931,11 @@ script = ExtResource("1_1f5wh")
 stream = ExtResource("2_gjq5f")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00109887, 0.287225, 0.0101928)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.00649375, 0.287225, 0.0101928)
 shape = SubResource("BoxShape3D_nt58j")
 
 [node name="RootNode" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 
 [node name="goh_lowLow_Poly" type="MeshInstance3D" parent="RootNode"]
 mesh = SubResource("ArrayMesh_g4uhl")
@@ -1052,4 +1053,4 @@ text = "AK47"
 font_size = 27
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
-transform = Transform3D(-4.47035e-08, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, -4.47035e-08, 1.9984e-15, 0.927913, 0.45672, 0.000483692)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0519399, 0.454875, -1.04153)

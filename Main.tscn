@@ -123,14 +123,13 @@ mesh = SubResource("BoxMesh_0xhom")
 shape = SubResource("BoxShape3D_q8qiw")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.0988025, -0.70132, 0.705966, -0.0972049, 0.712847, 0.694551, -0.990348, -7.52319e-09, -0.138603, 39.822, 34.0215, 3.15146)
-light_energy = 2.067
+transform = Transform3D(-0.0988025, -0.70132, 0.705966, -0.0972049, 0.712847, 0.694551, -0.990348, -5.26624e-08, -0.138603, 39.822, 124.412, 3.15146)
 
 [node name="Player" parent="." instance=ExtResource("1_cb44h")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.3259, 0.599996, -4.94)
 
 [node name="Ak47" parent="." instance=ExtResource("2_fkcp1")]
-transform = Transform3D(-0.0523359, 0, 0.99863, 0, 1, 0, -0.99863, 0, -0.0523359, 1.83807, 1.18048, -12.4625)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.83807, 1.18048, -12.4625)
 
 [node name="Mp5" parent="." instance=ExtResource("3_ylvbg")]
-transform = Transform3D(-0.99863, 0, -0.052336, 0, 1, 0, 0.052336, 0, -0.99863, 5.09762, 1.59944, -12.0568)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.33577, 1.7382, -12.2172)

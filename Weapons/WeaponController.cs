@@ -59,10 +59,10 @@ public class WeaponController : IWeaponController
     }
     public void ChangeWeapon(IWeapon weapon)
     {
-        if (Controllers[weapon.ControllerName] == null)
-        {
-            throw new System.Exception("Weapon doesn't exeist");
-        }
+        // if (Controllers[weapon.ControllerName] == null)
+        // {
+        //     throw new System.Exception("Weapon doesn't exeist");
+        // }
 
         _CurrentControllerName = weapon.ControllerName;
         _CurrentController = Controllers[_CurrentControllerName];
