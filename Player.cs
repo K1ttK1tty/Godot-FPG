@@ -16,6 +16,7 @@ public partial class Player : CharacterBody3D
     private bool _IsTeleportTimercooldown = false;
     private bool _IsTeleportReady = false;
     private bool _TimerChargeStage = false;
+
     private WeaponController Weapon;
     public override void _PhysicsProcess(double delta)
     {
@@ -38,22 +39,16 @@ public partial class Player : CharacterBody3D
         _IsChangeWeaponStage = false;
     }
 
-    private void _SelectWeapon()
+    private void _SelectWeapon(string keyCode)
     {
         if (_IsChangeWeaponStage) return;
-        if (Input.IsActionJustPressed("SelectMeele"))
+        if (
+            Input.IsActionJustPressed("SelectMeele") ||
+            Input.IsActionJustPressed("SelectPistol") ||
+            Input.IsActionJustPressed("SelectRifle")
+            )
         {
-            Weapon.SelectWeapon("MeleeWeaponController");
-            _SelectWeaponLogic();
-        }
-        else if (Input.IsActionJustPressed("SelectPistol"))
-        {
-            Weapon.SelectWeapon("PistolController");
-            _SelectWeaponLogic();
-        }
-        else if (Input.IsActionJustPressed("SelectRifle"))
-        {
-            Weapon.SelectWeapon("RifleController");
+            Weapon.SelectWeapon(keyCode);
             _SelectWeaponLogic();
         }
     }
@@ -120,7 +115,6 @@ public partial class Player : CharacterBody3D
             // TeleportRay.Basis = PlayerRay.GlobalTransform.Basis;
             // TeleportRay.Collide += OnCollide;
 
-
             Node3D rotationHelper = GetNode<Node3D>("RotationHelper");
             Empty_ray ray = EmptyRay.Instantiate<Empty_ray>();
             ray.Rotation = rotationHelper.Rotation;
@@ -158,18 +152,17 @@ public partial class Player : CharacterBody3D
     {
         float zCoord;
         float yCoord;
-        float xCoord;
+        // float xCoord;
         if (ray.Z > 0) zCoord = ray.Z - 0.3f;
         else zCoord = ray.Z + 0.3f;
 
         if (ray.Y > 0) yCoord = ray.Y - 0.6f;
         else yCoord = ray.Y + 0.6f;
 
-        if (ray.X > 0) xCoord = ray.X;
-        else xCoord = ray.X;
+        // if (ray.X > 0) xCoord = ray.X;
+        // else xCoord = ray.X;
 
-        // Position = ray;
-        Position = new Vector3(xCoord, yCoord, zCoord);
+        Position = new Vector3(ray.X, yCoord, zCoord);
         _IsTeleportTimercooldown = true;
         GD.Print("Teleported");
     }
@@ -312,8 +305,8 @@ public partial class Player : CharacterBody3D
         }
         if (@event is InputEventKey)
         {
-            _SelectWeapon();
             InputEventKey keyCode = @event as InputEventKey;
+            _SelectWeapon(keyCode.Keycode.ToString());
             if (keyCode.Keycode.ToString() == "R")
             {
                 if (_IsReloading) return;

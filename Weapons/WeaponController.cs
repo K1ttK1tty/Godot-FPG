@@ -10,6 +10,11 @@ public class WeaponController : IWeaponController
         { "PistolController", _PistolController },
         { "MeleeWeaponController", _MeleeWeaponController },
     };
+    private static System.Collections.Generic.Dictionary<string, string> ControllerNameByKeyCode = new(){
+        { "Key1", "MeleeWeaponController" },
+        { "Key2", "PistolController" },
+        { "Key3", "RifleController" },
+    };
     private static string _CurrentControllerName = "RifleController";
     private static IWeaponTypeController _CurrentController = Controllers[_CurrentControllerName];
     private string _CurrentWeaponName = _CurrentController.WeaponName;
@@ -47,15 +52,16 @@ public class WeaponController : IWeaponController
     }
     public void SelectWeapon(string value)
     {
-        if (CurrentControllerName == value) return;
-        if (Controllers[value] == null)
+        string controllerName = ControllerNameByKeyCode[value];
+        if (CurrentControllerName == controllerName) return;
+        if (Controllers[controllerName] == null)
         {
             throw new System.Exception("Weapon doesn't exeist");
         }
-        _CurrentControllerName = value;
-        _CurrentController = Controllers[value];
-        _CurrentWeapon = Controllers[value].CurrentWeapon;
-        _CurrentWeaponName = Controllers[value].WeaponName;
+        _CurrentControllerName = controllerName;
+        _CurrentController = Controllers[controllerName];
+        _CurrentWeapon = Controllers[controllerName].CurrentWeapon;
+        _CurrentWeaponName = Controllers[controllerName].WeaponName;
     }
     public void ChangeWeapon(IWeapon weapon)
     {
